@@ -1,0 +1,75 @@
+[worldserver]
+########################################
+# mod-temucraft-reforging
+########################################
+#
+#    Temucraft.Reforging.Enable
+#        Description: Cataclysm-style reforging at the Reforger (creature 608800): move part of one secondary stat
+#                     of an equipped item into another secondary stat it doesn't have.
+#        Default:     1
+
+Temucraft.Reforging.Enable = 1
+
+#
+#    Temucraft.Reforging.Percent
+#        Description: How much of the chosen stat is moved (percent).
+#        Default:     40
+
+Temucraft.Reforging.Percent = 40
+
+#
+#    Temucraft.Reforging.Cost
+#        Description: Price of one reforge, in copper (undoing it is free).
+#        Default:     50000 (5 gold)
+
+Temucraft.Reforging.Cost = 50000
+
+#
+#    Temucraft.Reforging.MinQuality
+#    Temucraft.Reforging.MinItemLevel
+#        Description: Lowest item quality (2 uncommon, 3 rare, 4 epic) and item level that can be reforged.
+#        Default:     2, 0
+
+Temucraft.Reforging.MinQuality = 2
+Temucraft.Reforging.MinItemLevel = 0
+
+########################################
+# mod-temucraft-item-upgrade
+########################################
+#
+#    Temucraft.ItemUpgrade.Enable
+#        Description: Mists-style item upgrades at the Upgrade Vendor (creature 608801).
+#        Default:     1
+
+Temucraft.ItemUpgrade.Enable = 1
+
+#
+#    Temucraft.ItemUpgrade.MaxLevel
+#    Temucraft.ItemUpgrade.PercentPerLevel
+#        Description: How many times an item can be upgraded, and how much each level adds to its stats, armor and
+#                     weapon damage (percent). The tooltip also shows +4 item level per upgrade.
+#        Default:     2, 4.0
+
+Temucraft.ItemUpgrade.MaxLevel = 2
+Temucraft.ItemUpgrade.PercentPerLevel = 4.0
+
+#
+#    Temucraft.ItemUpgrade.CostItem
+#    Temucraft.ItemUpgrade.CostCount
+#    Temucraft.ItemUpgrade.CostGold
+#        Description: Price of one upgrade level: an item and how many (0 = no item), and copper.
+#        Default:     0, 0, 100000 (10 gold)
+
+Temucraft.ItemUpgrade.CostItem = 0
+Temucraft.ItemUpgrade.CostCount = 0
+Temucraft.ItemUpgrade.CostGold = 100000
+
+#
+#    Temucraft.ItemUpgrade.MinQuality
+#    Temucraft.ItemUpgrade.MinItemLevel
+#        Description: Lowest quality (3 rare, 4 epic) and item level that can be upgraded. Weapons and armor only;
+#                     heirlooms never.
+#        Default:     3, 200
+
+Temucraft.ItemUpgrade.MinQuality = 3
+Temucraft.ItemUpgrade.MinItemLevel = 200
