@@ -1,16 +1,17 @@
 -- mod-temucraft-item-upgrade: the Upgrade Vendor, its greeting and the module's texts
-DELETE FROM `creature_template` WHERE `entry` = 608801;
+SET @Upgrader := 608801;
+DELETE FROM `creature_template` WHERE `entry` = @Upgrader;
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`,
   `speed_walk`, `speed_run`, `rank`, `unit_class`, `unit_flags`, `type`, `type_flags`, `AIName`, `MovementType`, `HealthModifier`, `RegenHealth`,
   `flags_extra`, `ScriptName`) VALUES
-(608801, 'Smith Torvald', 'Item Upgrades', '', 0, 80, 80, 2, 35, 1, 1, 1.14286, 0, 1, 768, 7, 0, '', 0, 1, 1, 2, '');
-DELETE FROM `creature_template_model` WHERE `CreatureID` = 608801;
+(@Upgrader, 'Smith Torvald', 'Item Upgrades', '', 0, 80, 80, 2, 35, 1, 1, 1.14286, 0, 1, 768, 7, 0, '', 0, 1, 1, 2, '');
+DELETE FROM `creature_template_model` WHERE `CreatureID` = @Upgrader;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`)
-SELECT 608801, 0, `CreatureDisplayID`, 1, 1, 0 FROM `creature_template_model` WHERE `CreatureID` = 28714 AND `Idx` = 0;
+SELECT @Upgrader, 0, `CreatureDisplayID`, 1, 1, 0 FROM `creature_template_model` WHERE `CreatureID` = 28714 AND `Idx` = 0;
 
-DELETE FROM `npc_text` WHERE `ID` = 608801;
+DELETE FROM `npc_text` WHERE `ID` = @Upgrader;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
-(608801, 'Good steel can always be made better. Bring me what you wear and the means to pay, and I will hammer more out of it.', '', 1);
+(@Upgrader, 'Good steel can always be made better. Bring me what you wear and the means to pay, and I will hammer more out of it.', '', 1);
 
 DELETE FROM `module_string` WHERE `module` = 'mod-temucraft-item-upgrade';
 INSERT INTO `module_string` (`module`, `id`, `string`) VALUES

@@ -73,3 +73,38 @@ Temucraft.ItemUpgrade.CostGold = 100000
 
 Temucraft.ItemUpgrade.MinQuality = 3
 Temucraft.ItemUpgrade.MinItemLevel = 200
+
+#
+#    Temucraft.Reforging.Creature
+#        Description: Creature of the reforger. Must match data/sql.
+#        Default:     608800
+
+Temucraft.Reforging.Creature = 608800
+
+#
+#    Temucraft.Reforging.Text
+#        Description: npc_text of the reforger's menus. Must match data/sql.
+#        Default:     608800
+
+Temucraft.Reforging.Text = 608800
+
+#
+#    Temucraft.ItemUpgrade.ItemLevelPerLevel
+#        Description: Item level shown on the tooltip per upgrade level.
+#        Default:     4
+
+Temucraft.ItemUpgrade.ItemLevelPerLevel = 4
+
+#
+#    Temucraft.ItemUpgrade.Creature
+#        Description: Creature of the item upgrader. Must match data/sql.
+#        Default:     608801
+
+Temucraft.ItemUpgrade.Creature = 608801
+
+#
+#    Temucraft.ItemUpgrade.Text
+#        Description: npc_text of the item upgrader's menus. Must match data/sql.
+#        Default:     608801
+
+Temucraft.ItemUpgrade.Text = 608801

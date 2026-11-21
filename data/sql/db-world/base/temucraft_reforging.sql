@@ -1,16 +1,17 @@
 -- mod-temucraft-reforging: the Reforger, its greeting and the module's texts
-DELETE FROM `creature_template` WHERE `entry` = 608800;
+SET @Reforger := 608800;
+DELETE FROM `creature_template` WHERE `entry` = @Reforger;
 INSERT INTO `creature_template` (`entry`, `name`, `subname`, `IconName`, `gossip_menu_id`, `minlevel`, `maxlevel`, `exp`, `faction`, `npcflag`,
   `speed_walk`, `speed_run`, `rank`, `unit_class`, `unit_flags`, `type`, `type_flags`, `AIName`, `MovementType`, `HealthModifier`, `RegenHealth`,
   `flags_extra`, `ScriptName`) VALUES
-(608800, 'Arcanist Veyra', 'Reforger', '', 0, 80, 80, 2, 35, 1, 1, 1.14286, 0, 1, 768, 7, 0, '', 0, 1, 1, 2, '');
-DELETE FROM `creature_template_model` WHERE `CreatureID` = 608800;
+(@Reforger, 'Arcanist Veyra', 'Reforger', '', 0, 80, 80, 2, 35, 1, 1, 1.14286, 0, 1, 768, 7, 0, '', 0, 1, 1, 2, '');
+DELETE FROM `creature_template_model` WHERE `CreatureID` = @Reforger;
 INSERT INTO `creature_template_model` (`CreatureID`, `Idx`, `CreatureDisplayID`, `DisplayScale`, `Probability`, `VerifiedBuild`)
-SELECT 608800, 0, `CreatureDisplayID`, 1, 1, 0 FROM `creature_template_model` WHERE `CreatureID` = 28693 AND `Idx` = 0;
+SELECT @Reforger, 0, `CreatureDisplayID`, 1, 1, 0 FROM `creature_template_model` WHERE `CreatureID` = 28693 AND `Idx` = 0;
 
-DELETE FROM `npc_text` WHERE `ID` = 608800;
+DELETE FROM `npc_text` WHERE `ID` = @Reforger;
 INSERT INTO `npc_text` (`ID`, `text0_0`, `text0_1`, `Probability0`) VALUES
-(608800, 'Every piece of gear has a little more to give than its maker intended. Show me what you are wearing and I will move its strengths where you need them.', '', 1);
+(@Reforger, 'Every piece of gear has a little more to give than its maker intended. Show me what you are wearing and I will move its strengths where you need them.', '', 1);
 
 DELETE FROM `module_string` WHERE `module` = 'mod-temucraft-reforging';
 INSERT INTO `module_string` (`module`, `id`, `string`) VALUES

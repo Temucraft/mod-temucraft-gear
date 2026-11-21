@@ -36,8 +36,6 @@ using namespace Acore::ChatCommands;
 namespace
 {
     constexpr char const* MODULE = "mod-temucraft-item-upgrade";
-    constexpr uint32 NPC_UPGRADER = 608801;
-    constexpr uint32 TEXT_UPGRADER = 608801;
 
     enum Str : uint32 { S_ITEM = 1, S_NOTHING, S_CONFIRM, S_DONE, S_MAXED, S_NO_COST, S_CHANGED, S_TOOLTIP, S_DISABLED, S_STATUS, S_NONE, S_REFORGED };
     std::unordered_map<uint32, char const*> const FALLBACK =
@@ -73,6 +71,8 @@ namespace
         float percent = 4.0f;            // per level
         uint32 costItem = 0, costCount = 0, costGold = 100000;
         uint32 minQuality = ITEM_QUALITY_RARE, minItemLevel = 200;
+        uint32 itemLevelPerLevel = 4;
+        uint32 creature = 608801, text = 608801;
     } cfg;
 
     std::unordered_map<ObjectGuid::LowType, uint8> upgrades;                                 // item guid -> level
@@ -181,7 +181,7 @@ namespace
                 copy.ItemStat[i].ItemStatValue = int32(std::lround(copy.ItemStat[i].ItemStatValue * f));
             copy.Armor = uint32(std::lround(copy.Armor * f));
             for (auto& dmg : copy.Damage) { dmg.DamageMin *= f; dmg.DamageMax *= f; }
-            copy.ItemLevel += level * 4;
+            copy.ItemLevel += level * cfg.itemLevelPerLevel;
             description = Text(player, S_TOOLTIP, level, cfg.maxLevel);
         }
         if (reforgeTable)    // mod-temucraft-reforging is installed: show its reforge in the same tooltip
@@ -286,7 +286,7 @@ namespace
                                  Text(player, S_CONFIRM, item->GetTemplate()->Name1, level + 1, cfg.maxLevel, Cost(player)), cfg.costGold, false);
         }
         if (!any) ChatHandler(player->GetSession()).SendSysMessage(Text(player, S_NOTHING));
-        SendGossipMenuFor(player, TEXT_UPGRADER, creature->GetGUID());
+        SendGossipMenuFor(player, cfg.text, creature->GetGUID());
     }
 
     void DoUpgrade(Player* player, Creature* creature, uint8 slot)
@@ -319,7 +319,7 @@ public:
 
     bool CanCreatureGossipHello(Player* player, Creature* creature) override
     {
-        if (creature->GetEntry() != NPC_UPGRADER) return false;
+        if (creature->GetEntry() != cfg.creature) return false;
         if (!cfg.enable) { ChatHandler(player->GetSession()).SendSysMessage(Text(player, S_DISABLED)); return true; }
         ShowItems(player, creature);
         return true;
@@ -327,7 +327,7 @@ public:
 
     bool CanCreatureGossipSelect(Player* player, Creature* creature, uint32, uint32 action) override
     {
-        if (creature->GetEntry() != NPC_UPGRADER) return false;
+        if (creature->GetEntry() != cfg.creature) return false;
         if (action >= ACT_UPGRADE && action < uint32(ACT_UPGRADE) + uint32(EQUIPMENT_SLOT_END)) DoUpgrade(player, creature, uint8(action - ACT_UPGRADE));
         else ShowItems(player, creature);
         return true;
@@ -370,6 +370,9 @@ public:
         cfg.costGold = sConfigMgr->GetOption<uint32>("Temucraft.ItemUpgrade.CostGold", 100000);
         cfg.minQuality = sConfigMgr->GetOption<uint32>("Temucraft.ItemUpgrade.MinQuality", ITEM_QUALITY_RARE);
         cfg.minItemLevel = sConfigMgr->GetOption<uint32>("Temucraft.ItemUpgrade.MinItemLevel", 200);
+        cfg.itemLevelPerLevel = sConfigMgr->GetOption<uint32>("Temucraft.ItemUpgrade.ItemLevelPerLevel", 4);
+        cfg.creature = sConfigMgr->GetOption<uint32>("Temucraft.ItemUpgrade.Creature", 608801);
+        cfg.text = sConfigMgr->GetOption<uint32>("Temucraft.ItemUpgrade.Text", 608801);
     }
 
     void OnStartup() override

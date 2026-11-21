@@ -40,8 +40,6 @@ using namespace Acore::ChatCommands;
 namespace
 {
     constexpr char const* MODULE = "mod-temucraft-reforging";
-    constexpr uint32 NPC_REFORGER = 608800;
-    constexpr uint32 TEXT_REFORGER = 608800;
 
     // module_string ids, with the English text used when the row is missing
     enum Str : uint32
@@ -89,6 +87,7 @@ namespace
         uint32 cost = 50000;            // copper
         uint32 minQuality = ITEM_QUALITY_UNCOMMON;
         uint32 minItemLevel = 0;
+        uint32 creature = 608800, text = 608800;
     } cfg;
 
     // stats that can be reduced and added (secondary stats, as in Cataclysm, in 3.3.5 terms)
@@ -227,7 +226,7 @@ namespace
                     copy.ItemStat[i].ItemStatValue = int32(std::lround(copy.ItemStat[i].ItemStatValue * f));
                 copy.Armor = uint32(std::lround(copy.Armor * f));
                 for (auto& dmg : copy.Damage) { dmg.DamageMin *= f; dmg.DamageMax *= f; }
-                copy.ItemLevel += level * 4;
+                copy.ItemLevel += level * sConfigMgr->GetOption<uint32>("Temucraft.ItemUpgrade.ItemLevelPerLevel", 4);
                 upgradeLine = Acore::StringFormat("Upgrade Level: {}/{}", level, sConfigMgr->GetOption<uint32>("Temucraft.ItemUpgrade.MaxLevel", 2));
             }
         auto it = reforges.find(item->GetGUID().GetCounter());
@@ -367,7 +366,7 @@ namespace
         }
         if (!any)
             ChatHandler(player->GetSession()).SendSysMessage(Text(player, S_NOTHING));
-        SendGossipMenuFor(player, TEXT_REFORGER, creature->GetGUID());
+        SendGossipMenuFor(player, cfg.text, creature->GetGUID());
     }
 
     void ShowSources(Player* player, Creature* creature, uint8 slot)
@@ -388,7 +387,7 @@ namespace
                         AddGossipItemFor(player, GOSSIP_ICON_TRAINER, Text(player, S_PICK_SOURCE, StatName(stat), v, v - amount), GOSSIP_SENDER_MAIN, ACT_SOURCE + stat);
                 }
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, Text(player, S_BACK), GOSSIP_SENDER_MAIN, ACT_ITEMS);
-        SendGossipMenuFor(player, TEXT_REFORGER, creature->GetGUID());
+        SendGossipMenuFor(player, cfg.text, creature->GetGUID());
     }
 
     void ShowTargets(Player* player, Creature* creature, uint32 source)
@@ -405,7 +404,7 @@ namespace
                 AddGossipItemFor(player, GOSSIP_ICON_TRAINER, Text(player, S_PICK_TARGET, amount, StatName(stat)), GOSSIP_SENDER_MAIN, ACT_TARGET + stat,
                                  Text(player, S_CONFIRM, ItemName(item), amount, StatName(source), amount, StatName(stat)), cfg.cost, false);
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, Text(player, S_BACK), GOSSIP_SENDER_MAIN, ACT_ITEM + c.slot);
-        SendGossipMenuFor(player, TEXT_REFORGER, creature->GetGUID());
+        SendGossipMenuFor(player, cfg.text, creature->GetGUID());
     }
 
     void Reapply(Player* player, Item* item, uint8 slot, std::function<void()> change)
@@ -457,7 +456,7 @@ public:
 
     bool CanCreatureGossipHello(Player* player, Creature* creature) override
     {
-        if (creature->GetEntry() != NPC_REFORGER) return false;
+        if (creature->GetEntry() != cfg.creature) return false;
         if (!cfg.enable) { ChatHandler(player->GetSession()).SendSysMessage(Text(player, S_DISABLED)); return true; }
         ShowItems(player, creature);
         return true;
@@ -465,7 +464,7 @@ public:
 
     bool CanCreatureGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 action) override
     {
-        if (creature->GetEntry() != NPC_REFORGER) return false;
+        if (creature->GetEntry() != cfg.creature) return false;
         if (action == ACT_ITEMS) ShowItems(player, creature);
         else if (action >= ACT_ITEM && action < uint32(ACT_ITEM) + uint32(EQUIPMENT_SLOT_END)) ShowSources(player, creature, uint8(action - ACT_ITEM));
         else if (action >= ACT_SOURCE && action < ACT_TARGET) ShowTargets(player, creature, action - ACT_SOURCE);
@@ -521,6 +520,8 @@ public:
         cfg.cost = sConfigMgr->GetOption<uint32>("Temucraft.Reforging.Cost", 50000);
         cfg.minQuality = sConfigMgr->GetOption<uint32>("Temucraft.Reforging.MinQuality", ITEM_QUALITY_UNCOMMON);
         cfg.minItemLevel = sConfigMgr->GetOption<uint32>("Temucraft.Reforging.MinItemLevel", 0);
+        cfg.creature = sConfigMgr->GetOption<uint32>("Temucraft.Reforging.Creature", 608800);
+        cfg.text = sConfigMgr->GetOption<uint32>("Temucraft.Reforging.Text", 608800);
     }
 };
 
