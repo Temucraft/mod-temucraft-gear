@@ -340,10 +340,10 @@ public:
     TemucraftItemUpgrade_Command() : CommandScript("TemucraftItemUpgrade_Command") { }
     ChatCommandTable GetCommands() const override
     {
-        static ChatCommandTable table = { { "upgrades", HandleUpgrades, SEC_PLAYER, Console::No } };
+        static ChatCommandTable table = { { "temucraft upgrades", HandleUpgrades, 102450, Console::No } };
         return table;
     }
-    // .upgrades: upgrade levels of your equipped items
+    // .temucraft upgrades: upgrade levels of your equipped items
     static bool HandleUpgrades(ChatHandler* handler)
     {
         Player* player = handler->GetPlayer(); bool any = false;

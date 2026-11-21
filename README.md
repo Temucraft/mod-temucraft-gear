@@ -17,7 +17,7 @@ rating. Heirlooms can't be reforged.
 ### Use
 
 - Spawn the Reforger: `.npc add 608800`.
-- `.reforge` lists what is reforged on your equipped items.
+- `.temucraft reforge` lists what is reforged on your equipped items.
 - The item tooltip shows the new numbers (sent privately to the owner) and a "Reforged: ..." line.
 
 ### Install
@@ -57,7 +57,7 @@ traded or mailed.
 ### Use
 
 - Spawn the Upgrade Vendor: `.npc add 608801`.
-- `.upgrades` lists the upgrade levels of your equipped items.
+- `.temucraft upgrades` lists the upgrade levels of your equipped items.
 - The owner sees the upgraded numbers and "Upgrade Level: x/y" in the tooltip.
 
 ### Install

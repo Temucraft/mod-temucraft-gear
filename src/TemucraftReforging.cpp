@@ -482,11 +482,11 @@ public:
 
     ChatCommandTable GetCommands() const override
     {
-        static ChatCommandTable table = { { "reforge", HandleReforge, SEC_PLAYER, Console::No } };
+        static ChatCommandTable table = { { "temucraft reforge", HandleReforge, 102451, Console::No } };
         return table;
     }
 
-    // .reforge: what is reforged on your equipped items
+    // .temucraft reforge: what is reforged on your equipped items
     static bool HandleReforge(ChatHandler* handler)
     {
         Player* player = handler->GetPlayer();
