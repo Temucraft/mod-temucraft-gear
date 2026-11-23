@@ -12,6 +12,7 @@
  *
  * Text comes from module_string (module "mod-temucraft-item-upgrade"), with English built in as a fallback.
  */
+#include "TemucraftLocked.h"
 #include "Chat.h"
 #include "ChatCommand.h"
 #include "Config.h"
@@ -76,7 +77,7 @@ namespace
     } cfg;
 
     std::unordered_map<ObjectGuid::LowType, uint8> upgrades;                                 // item guid -> level
-    std::unordered_map<ObjectGuid, std::array<int32, EQUIPMENT_SLOT_END>> armorAdded;        // player -> armor added per slot (0 = none)
+    Temucraft::LockedMap<ObjectGuid, std::array<int32, EQUIPMENT_SLOT_END>> armorAdded;        // player -> armor added per slot (0 = none)
     bool reforgeTable = false;
 
     float Factor(uint8 level) { return 1.0f + level * cfg.percent / 100.0f; }

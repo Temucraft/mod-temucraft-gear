@@ -15,6 +15,7 @@
  *
  * Text comes from module_string (module "mod-temucraft-reforging"), with English built in as a fallback.
  */
+#include "TemucraftLocked.h"
 #include "Chat.h"
 #include "ChatCommand.h"
 #include "Config.h"
@@ -115,7 +116,7 @@ namespace
     bool upgradeTable = false;
     std::string upgradeLine;
     std::unordered_map<ObjectGuid::LowType, Reforge> reforges;              // item guid -> reforge
-    std::unordered_map<ObjectGuid, std::array<bool, EQUIPMENT_SLOT_END>> applied;   // player -> slot has the added stat
+    Temucraft::LockedMap<ObjectGuid, std::array<bool, EQUIPMENT_SLOT_END>> applied;   // player -> slot has the added stat
 
     bool IsReforgeStat(uint32 stat) { return std::find(REFORGE_STATS.begin(), REFORGE_STATS.end(), stat) != REFORGE_STATS.end(); }
 
@@ -329,9 +330,9 @@ public:
         }
     }
 
-    static std::unordered_map<ObjectGuid, std::array<Reforge, EQUIPMENT_SLOT_END>> pending;
+    static Temucraft::LockedMap<ObjectGuid, std::array<Reforge, EQUIPMENT_SLOT_END>> pending;
 };
-std::unordered_map<ObjectGuid, std::array<Reforge, EQUIPMENT_SLOT_END>> TemucraftReforging_Player::pending;
+Temucraft::LockedMap<ObjectGuid, std::array<Reforge, EQUIPMENT_SLOT_END>> TemucraftReforging_Player::pending;
 
 namespace
 {
