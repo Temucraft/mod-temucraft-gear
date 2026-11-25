@@ -294,7 +294,12 @@ public:
                     SendTooltip(player, item);
     }
 
-    void OnPlayerLogout(Player* player) override { applied.erase(player->GetGUID()); }
+    void OnPlayerLogout(Player* player) override
+    {
+        applied.erase(player->GetGUID());
+        pending.erase(player->GetGUID());
+    }
+
 
     void OnPlayerEquip(Player* player, Item* item, uint8 /*bag*/, uint8 /*slot*/, bool /*update*/) override
     {
